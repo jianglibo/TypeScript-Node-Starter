@@ -15,7 +15,6 @@ import * as path from "path";
 import * as mongoose from "mongoose";
 import * as passport from "passport";
 import expressValidator = require("express-validator");
-import { Request, Response, NextFunction } from "express";
 
 
 // const MongoStore = mongo(session);
@@ -38,8 +37,6 @@ import * as contactController from "./controllers/contact";
  * API keys and Passport configuration.
  */
 import * as passportConfig from "./config/passport";
-import { readFileSync } from "fs";
-import { project_root, from_project_root } from "./config/project-global";
 
 /**
  * Create Express server.
@@ -79,46 +76,35 @@ app.use(expressValidator());
 //     autoReconnect: true
 //   })
 // }));
-// app.use(passport.initialize());
-// app.use(passport.session());
-// app.use(flash());
-// app.use(lusca.xframe("SAMEORIGIN"));
-// app.use(lusca.xssProtection(true));
-// app.use((req, res, next) => {
-//   res.locals.user = req.user;
-//   next();
-// });
-// app.use((req, res, next) => {
-//   // After successful login, redirect back to the intended page
-//   if (!req.user &&
-//       req.path !== "/login" &&
-//       req.path !== "/signup" &&
-//       !req.path.match(/^\/auth/) &&
-//       !req.path.match(/\./)) {
-//     req.session.returnTo = req.path;
-//   } else if (req.user &&
-//       req.path == "/account") {
-//     req.session.returnTo = req.path;
-//   }
-//   next();
-// });
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+app.use(lusca.xframe("SAMEORIGIN"));
+app.use(lusca.xssProtection(true));
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
+app.use((req, res, next) => {
+  // After successful login, redirect back to the intended page
+  if (!req.user &&
+      req.path !== "/login" &&
+      req.path !== "/signup" &&
+      !req.path.match(/^\/auth/) &&
+      !req.path.match(/\./)) {
+    req.session.returnTo = req.path;
+  } else if (req.user &&
+      req.path == "/account") {
+    req.session.returnTo = req.path;
+  }
+  next();
+});
 app.use(express.static(path.join(__dirname, "public"), { maxAge: 31557600000 }));
 
-
-const tf = from_project_root("fixtures", "manufacturergetone.json");
-
-const bf: Buffer = readFileSync(tf);
-
-const s = bf.toString("utf-8");
-
-console.log(s);
 /**
  * Primary app routes.
  */
-// app.get("/", homeController.index);
-app.get("/", (req: Request, res: Response) => {
-  res.json({a: 1});
-});
+app.get("/", homeController.index);
 app.get("/login", userController.getLogin);
 app.post("/login", userController.postLogin);
 app.get("/logout", userController.logout);

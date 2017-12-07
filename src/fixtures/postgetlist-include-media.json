@@ -1,0 +1,78 @@
+{
+    "data" : {
+      "id" : "819201",
+      "type" : "posts",
+      "attributes" : {
+        "toAll" : true,
+        "createdAt" : 1505530668165,
+        "read" : true,
+        "title" : "title",
+        "content" : "content",
+        "dtoAction" : null,
+        "dtoApplyTo" : null
+      },
+      "relationships" : {
+        "sharedUsers" : {
+          "links" : {
+            "self" : "http://localhost/jsonapi/posts/819201/relationships/sharedUsers",
+            "related" : "http://localhost/jsonapi/posts/819201/sharedUsers"
+          }
+        },
+        "creator" : {
+          "links" : {
+            "self" : "http://localhost/jsonapi/posts/819201/relationships/creator",
+            "related" : "http://localhost/jsonapi/posts/819201/creator"
+          }
+        },
+        "sharedGroups" : {
+          "links" : {
+            "self" : "http://localhost/jsonapi/posts/819201/relationships/sharedGroups",
+            "related" : "http://localhost/jsonapi/posts/819201/sharedGroups"
+          }
+        },
+        "media" : {
+          "data" : [ {
+            "id" : "491522",
+            "type" : "media"
+          } ],
+          "links" : {
+            "self" : "http://localhost/jsonapi/posts/819201/relationships/media",
+            "related" : "http://localhost/jsonapi/posts/819201/media"
+          }
+        }
+      },
+      "links" : {
+        "self" : "http://localhost/jsonapi/posts/819201"
+      }
+    },
+    "included" : [ {
+      "id" : "491522",
+      "type" : "media",
+      "attributes" : {
+        "createdAt" : 1505530667683,
+        "size" : 61,
+        "contentType" : "application/octet-stream",
+        "url" : "http://localhost:80/uploaded/1ef8c4db83d84fda908e113040d19f09.js",
+        "orignName" : "v.js",
+        "dtoAction" : null,
+        "dtoApplyTo" : null
+      },
+      "relationships" : {
+        "creator" : {
+          "links" : {
+            "self" : "http://localhost/jsonapi/media/491522/relationships/creator",
+            "related" : "http://localhost/jsonapi/media/491522/creator"
+          }
+        },
+        "posts" : {
+          "links" : {
+            "self" : "http://localhost/jsonapi/media/491522/relationships/posts",
+            "related" : "http://localhost/jsonapi/media/491522/posts"
+          }
+        }
+      },
+      "links" : {
+        "self" : "http://localhost/jsonapi/media/491522"
+      }
+    } ]
+  }
