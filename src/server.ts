@@ -39,7 +39,7 @@ import * as contactController from "./controllers/contact";
  */
 import * as passportConfig from "./config/passport";
 import { readFileSync } from "fs";
-import { project_root, from_project_root } from "./config/project-global";
+import { project_root, from_project_root } from './config/project-global';
 
 /**
  * Create Express server.
@@ -105,19 +105,39 @@ app.use(expressValidator());
 app.use(express.static(path.join(__dirname, "public"), { maxAge: 31557600000 }));
 
 
-const tf = from_project_root("fixtures", "manufacturergetone.json");
+// const tf = from_project_root("fixtures", "manufacturergetone.json");
 
-const bf: Buffer = readFileSync(tf);
+// const bf: Buffer = readFileSync(tf);
 
-const s = bf.toString("utf-8");
+// const s = bf.toString("utf-8");
 
-console.log(s);
+// console.log(s);
 /**
  * Primary app routes.
  */
 // app.get("/", homeController.index);
-app.get("/", (req: Request, res: Response) => {
-  res.json({a: 1});
+app.get("/jsonapi/:rss/:id", (req: Request, res: Response, next: NextFunction) => {
+  console.log("rss/id");
+  const fn = from_project_root("fixtures", req.params.rss + ".json");
+  const bf = readFileSync(fn);
+  const jo = JSON.parse(bf.toString());
+  const data = jo.data as Array<any>;
+  for (let index = 0; index < data.length; index++) {
+    const element = data[index];
+    if (element.id === req.params.id) {
+      res.json({data: element});
+      return;
+    }
+  }
+  next(new Error('failed to load user'));
+});
+
+app.get("/jsonapi/:rss", (req: Request, res: Response) => {
+  console.log("rss");
+  const fn = from_project_root("fixtures", req.params.rss + ".json");
+  const bf = readFileSync(fn);
+  const jo = JSON.parse(bf.toString());
+  res.json(jo);
 });
 app.get("/login", userController.getLogin);
 app.post("/login", userController.postLogin);
