@@ -13,7 +13,7 @@
     "build": "npm run build-sass && npm run build-ts && npm run tslint && npm run copy-static-assets",
     "serve": "nodemon dist/server.js",
     "watch": "concurrently -k -p \"[{name}]\" -n \"Sass,TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-sass\" \"npm run watch-ts\" \"npm run serve\"",
-    "test": "jest --forceExit",
+    "test": "jest --watch",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
     "build-sass": "node-sass src/public/css/main.scss dist/public/css/main.css",
@@ -62,7 +62,8 @@
     "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0",
     "pug": "^2.0.0-beta6",
-    "request": "^2.78.0"
+    "request": "^2.78.0",
+    "data-shape": "^1.0.0"
   },
   "devDependencies": {
     "@types/async": "^2.0.40",

@@ -39,7 +39,7 @@ import * as contactController from "./controllers/contact";
  */
 import * as passportConfig from "./config/passport";
 import { readFileSync } from "fs";
-import { project_root, from_project_root } from './config/project-global';
+import { project_root, from_project_root } from './service/fixture-util';
 
 /**
  * Create Express server.
