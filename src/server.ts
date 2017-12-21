@@ -30,16 +30,15 @@ dotenv.config({ path: ".env.example" });
  * Controllers (route handlers).
  */
 import * as homeController from "./controllers/home";
-import * as userController from "./controllers/user";
 import * as apiController from "./controllers/api";
-import * as contactController from "./controllers/contact";
 
 /**
  * API keys and Passport configuration.
  */
 import * as passportConfig from "./config/passport";
 import { readFileSync } from "fs";
-import { project_root, from_project_root } from './service/fixture-util';
+import { project_root, from_project_root, getListContent } from './service/fixture-util';
+import { JsonapiParamParser } from './service/jsonapi-param-parser';
 
 /**
  * Create Express server.
@@ -117,7 +116,6 @@ app.use(express.static(path.join(__dirname, "public"), { maxAge: 31557600000 }))
  */
 // app.get("/", homeController.index);
 app.get("/jsonapi/:rss/:id", (req: Request, res: Response, next: NextFunction) => {
-  console.log("rss/id");
   const fn = from_project_root("fixtures", req.params.rss + ".json");
   const bf = readFileSync(fn);
   const jo = JSON.parse(bf.toString());
@@ -132,29 +130,18 @@ app.get("/jsonapi/:rss/:id", (req: Request, res: Response, next: NextFunction) =
   next(new Error('failed to load user'));
 });
 
+
 app.get("/jsonapi/:rss", (req: Request, res: Response) => {
-  console.log("rss");
-  const fn = from_project_root("fixtures", req.params.rss + ".json");
-  const bf = readFileSync(fn);
-  const jo = JSON.parse(bf.toString());
+  // console.log("rss");
+  // const fn = from_project_root("fixtures", req.params.rss + ".json");
+  // const bf = readFileSync(fn);
+  const pol = JsonapiParamParser.offsetLimit(req.url);
+  // const jo = JSON.parse(bf.toString());
+  // const data = jo.data as Array<any>;
+  // jo.data = data.slice(pol.offset, pol.offset + pol.limit);
+  const jo = getListContent(req.params.rss, pol);
   res.json(jo);
 });
-app.get("/login", userController.getLogin);
-app.post("/login", userController.postLogin);
-app.get("/logout", userController.logout);
-app.get("/forgot", userController.getForgot);
-app.post("/forgot", userController.postForgot);
-app.get("/reset/:token", userController.getReset);
-app.post("/reset/:token", userController.postReset);
-app.get("/signup", userController.getSignup);
-app.post("/signup", userController.postSignup);
-app.get("/contact", contactController.getContact);
-app.post("/contact", contactController.postContact);
-app.get("/account", passportConfig.isAuthenticated, userController.getAccount);
-app.post("/account/profile", passportConfig.isAuthenticated, userController.postUpdateProfile);
-app.post("/account/password", passportConfig.isAuthenticated, userController.postUpdatePassword);
-app.post("/account/delete", passportConfig.isAuthenticated, userController.postDeleteAccount);
-app.get("/account/unlink/:provider", passportConfig.isAuthenticated, userController.getOauthUnlink);
 
 /**
  * API examples routes.

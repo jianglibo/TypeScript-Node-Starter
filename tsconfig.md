@@ -1,0 +1,1 @@
+When multiple include items exist, The dist folder will not flatten src folder, instead it contains src folder.

@@ -1,5 +1,5 @@
 import * as path from "path";
-import { ListBody, AttributesBase, JsonapiObject, PageOffsetLimit } from 'data-shape';
+import { ListBody, AttributesBase, JsonapiObject, PageOffsetLimit } from 'data-shape-ng';
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 
 const CHANGING_FIXTURES_DIR = path.join(process.cwd(), 'changingfixtures');

@@ -1,6 +1,6 @@
 import {} from 'jest';
 import { getListContent, addItem } from '../../src/service/fixture-util';
-import { Manufacturer, ManufacturerAttributes } from 'data-shape';
+import { Manufacturer, ManufacturerAttributes } from 'data-shape-ng';
 
 const M_F_N = "manufacturers";
 
