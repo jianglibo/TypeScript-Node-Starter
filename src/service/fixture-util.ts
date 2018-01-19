@@ -1,11 +1,20 @@
 import * as path from "path";
 import { ListBody, AttributesBase, JsonapiObject, PageOffsetLimit } from 'data-shape-ng';
-import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 
 const CHANGING_FIXTURES_DIR = path.join(process.cwd(), 'changingfixtures');
+const SRC_FIXTURE_DIR = path.join(process.cwd(), 'src', 'fixtures');
+
+if (!existsSync(CHANGING_FIXTURES_DIR)) {
+    mkdirSync(CHANGING_FIXTURES_DIR);
+}
 
 export function getFixtureFilePath(nameInUrl: string): string {
-    return path.join(CHANGING_FIXTURES_DIR, nameInUrl + ".json");
+    const dp = path.join(CHANGING_FIXTURES_DIR, nameInUrl + ".json");
+    if (!existsSync(dp)) {
+        writeFileSync(dp, readFileSync(path.join(SRC_FIXTURE_DIR, nameInUrl + ".json")));
+    }
+    return dp;
 }
 
 export let project_root = path.join(__dirname, "..");
