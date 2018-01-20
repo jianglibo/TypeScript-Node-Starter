@@ -1,4 +1,4 @@
-import { PageOffsetLimit } from 'data-shape-ng';
+import { PageOffsetLimit, FilterPhrase } from 'data-shape-ng';
 // page[offset]=0&page[limit]=5&sort=&filter[]=
 
 export class JsonapiParamParser {
@@ -16,5 +16,16 @@ export class JsonapiParamParser {
             pol.limit = +(m[1]);
         }
         return pol;
+    }
+
+    static  filters(url: string): FilterPhrase[] {
+        // const FILTER_PHRASE_PTN = /filter\[(^[=]*)\]=(^[&]*)/i;
+        const FILTER_PHRASE_PTN = /filter\[([^=]*)\]=([^&]*)/i;
+        const fps = [];
+        let m = undefined;
+        while (m = FILTER_PHRASE_PTN.exec(url)) {
+            fps.push({fname: m[1], value: m[2]});
+        }
+        return fps;
     }
 }

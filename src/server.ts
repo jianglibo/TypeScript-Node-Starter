@@ -136,10 +136,12 @@ app.get("/jsonapi/:rss", (req: Request, res: Response) => {
   // const fn = from_project_root("fixtures", req.params.rss + ".json");
   // const bf = readFileSync(fn);
   const pol = JsonapiParamParser.offsetLimit(req.url);
+
+  const fps = JsonapiParamParser.filters(req.url);
   // const jo = JSON.parse(bf.toString());
   // const data = jo.data as Array<any>;
   // jo.data = data.slice(pol.offset, pol.offset + pol.limit);
-  const jo = getListContent(req.params.rss, pol);
+  const jo = getListContent(req.params.rss, pol, fps);
   res.json(jo);
 });
 
