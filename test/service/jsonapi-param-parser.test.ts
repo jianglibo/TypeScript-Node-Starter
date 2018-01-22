@@ -22,6 +22,41 @@ describe("should parse jsonapi url.", () => {
     expect(pol.offset).toBe(0);
     expect(pol.limit).toBe(5);
   });
+  it("should parse a simple filter.", () => {
+    const url = "/abc/?filter[a]=b";
+    const fps = JsonapiParamParser.filters(url);
+    expect(fps.length).toBe(1);
+    const fp = fps[0];
+    expect(fp.fname).toBe('a');
+    expect(fp.value).toBe('b');
+  });
+
+  it("should parse a simple filter, has other parameters behind.", () => {
+    const url = "/abc/?filter[a]=b&c=d";
+    const fps = JsonapiParamParser.filters(url);
+    expect(fps.length).toBe(1);
+    const fp = fps[0];
+    expect(fp.fname).toBe('a');
+    expect(fp.value).toBe('b');
+  });
+
+  it("should parse a simple filter. has 2 filters.", () => {
+    const url = "/abc/?filter[a]=b&filter[c]=d";
+    const fps = JsonapiParamParser.filters(url);
+    expect(fps.length).toBe(2);
+    const fp = fps[1];
+    expect(fp.fname).toBe('c');
+    expect(fp.value).toBe('d');
+  });
+
+  it("should parse a simple filter. value is empty.", () => {
+    const url = "/abc/?filter[a]=&";
+    const fps = JsonapiParamParser.filters(url);
+    expect(fps.length).toBe(1);
+    const fp = fps[0];
+    expect(fp.fname).toBe('a');
+    expect(fp.value).toBe('');
+  });
 });
 
 /*

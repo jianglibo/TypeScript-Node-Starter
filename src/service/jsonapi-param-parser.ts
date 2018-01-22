@@ -20,10 +20,10 @@ export class JsonapiParamParser {
 
     static  filters(url: string): FilterPhrase[] {
         // const FILTER_PHRASE_PTN = /filter\[(^[=]*)\]=(^[&]*)/i;
-        const FILTER_PHRASE_PTN = /filter\[([^=]*)\]=([^&]*)/i;
+        const FILTER_PHRASE_PTN = /filter\[([^=]*)\]=([^&]*)/ig;
         const fps = [];
         let m = undefined;
-        while (m = FILTER_PHRASE_PTN.exec(url)) {
+        while ((m = FILTER_PHRASE_PTN.exec(url)) !== null) {
             fps.push({fname: m[1], value: m[2]});
         }
         return fps;

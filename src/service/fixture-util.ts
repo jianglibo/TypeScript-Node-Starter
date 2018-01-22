@@ -68,8 +68,6 @@ export function getListContent<
   jo = readFileSync(getFixtureFilePath(nameInUrl)).toString();
   const lb = JSON.parse(jo) as ListBody<E, T>;
   const tl = lb.data.length;
-  console.log(filters);
-  console.log(page);
   // correct meta data in case of wrong.
   if (tl !== lb.meta.totalResourceCount) {
     lb.meta.totalResourceCount = tl;
@@ -78,7 +76,6 @@ export function getListContent<
   }
 
   if (filters && filters.length > 0) {
-    console.log(filters);
     const value = filters[0].value;
     const fname = filters[0].fname;
     const afterFilterData = lb.data.filter(v => {
